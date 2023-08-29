@@ -1,0 +1,5 @@
+flask[async]==2.2.5
+gunicorn==21.2.0
+requests
+gevent==22.10.2
+asyncio-gevent
