@@ -10,6 +10,7 @@ def send_request(i):
     start_time = time.time()
     response = requests.get(API_URL)
     total_time = time.time() - start_time
+    time.sleep(0.01)
     return (total_time, response.text)
 
 def main():
