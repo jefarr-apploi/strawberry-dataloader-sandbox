@@ -7,8 +7,10 @@ NUM_REQUESTS = 50
 
 def send_request(i):
     """Send a request to the API and return the response text."""
+    start_time = time.time()
     response = requests.get(API_URL)
-    return response.text
+    total_time = time.time() - start_time
+    return (total_time, response.text)
 
 def main():
     # Use a ThreadPool to simulate multiple clients sending requests concurrently
