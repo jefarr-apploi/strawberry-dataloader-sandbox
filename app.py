@@ -1,10 +1,16 @@
 from flask import Flask
 import logging
 import time
+#from hypercorn.config import Config
+#from hypercorn.asyncio import serve
+import uvicorn
+import asyncio
 
-import gevent.monkey
+from asgiref.wsgi import WsgiToAsgi
 
-gevent.monkey.patch_all()
+# import gevent.monkey
+
+# gevent.monkey.patch_all()
 
 # import asyncio
 # import asyncio_gevent
@@ -24,5 +30,17 @@ async def hello_world():
     time.sleep(0.01)
     return 'Hello World'
 
+
+asgi_app = WsgiToAsgi(app)
+
 if __name__ == '__main__':
-    app.run()
+    # Hypercorn
+    # config = Config()
+    # config.bind = ["0.0.0.0:8000"]
+    # asyncio.run(serve(asgi_app, config))
+
+    # Uvicorn
+    # config = uvicorn.Config("app:asgi_app", host="0.0.0.0", port=8000, log_level="info")
+    # server = uvicorn.Server(config)
+    # server.run()
+    pass
