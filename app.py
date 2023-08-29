@@ -27,7 +27,7 @@ logging.basicConfig(filename='api.log', level=logging.DEBUG,
 @app.route('/')
 async def hello_world():
     app.logger.info('Hello World endpoint was accessed')
-    time.sleep(0.01)
+    time.sleep(0.02)
     return 'Hello World'
 
 
