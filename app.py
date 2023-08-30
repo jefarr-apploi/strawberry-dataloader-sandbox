@@ -11,6 +11,11 @@ import strawberry
 
 from asgiref.wsgi import WsgiToAsgi
 
+import os
+
+if True:
+    import gevent.monkey
+    gevent.monkey.patch_all()
 
 app = Flask(__name__)
 
@@ -47,11 +52,20 @@ async def load_users(keys) -> List[User]:
 
 users_loader = DataLoader(load_fn=load_users, cache=False)
 
+async def get_user_ids(_):
+    return [1,2,3]
+
+user_ids_loader = DataLoader(load_fn=get_user_ids, cache=False)
+
 @strawberry.type
 class Query:
     @strawberry.field
     async def get_user(self, id: strawberry.ID) -> User:
         return await users_loader.load(id)
+
+    @strawberry.field
+    async def users(self) -> List[int]:
+        return await user_ids_loader.load(None)
 
 schema = strawberry.Schema(query=Query)
 

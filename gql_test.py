@@ -36,6 +36,12 @@ if __name__ == '__main__':
         }
     }
     """
+
+    QUERY = """
+    {
+        users
+    }
+    """
     
     # Optionally, add headers for authentication or other purposes
     HEADERS = {
