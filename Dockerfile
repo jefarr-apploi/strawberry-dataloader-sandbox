@@ -19,5 +19,5 @@ ENV BIND 0.0.0.0:8000
 # Run app.py using gunicorn when the container launches
 #CMD ["gunicorn", "--worker-class", "gevent", "app:asgi_app", "-b", "0.0.0.0:8000"]
 #CMD ["uvicorn", "app:asgi_app", "--host", "0.0.0.0", "--port", "8000", "--workers", "3"]
-CMD ["gunicorn", "--worker-class", "uvicorn.workers.UvicornWorker", "app:asgi_app", "-b", "0.0.0.0:8000", "--workers", "6"]
+CMD ["gunicorn", "--worker-class", "uvicorn.workers.UvicornWorker", "app:asgi_app", "-b", "0.0.0.0:8000", "--workers", "30"]
 #CMD ["python", "app.py"]
