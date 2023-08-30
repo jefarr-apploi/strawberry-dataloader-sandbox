@@ -16,3 +16,13 @@ services:
       dockerfile: Dockerfile.loadtest
     depends_on:
       - flaskapp
+
+  gqltest:
+    build:
+      context: .
+      dockerfile: Dockerfile.loadtest
+    depends_on:
+      - flaskapp
+    volumes:
+      - .:/load_test
+    command: bash -c 'python gql_test.py'
