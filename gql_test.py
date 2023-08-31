@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     QUERY = """
     {
-        users { nodes { id role { id } } }
+        users { nodes { id roles { id } } }
     }
     """
     

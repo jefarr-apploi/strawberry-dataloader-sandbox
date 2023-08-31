@@ -45,7 +45,7 @@ class User:
     id: strawberry.ID
 
     @strawberry.field
-    async def role(self, info) -> Role:
+    async def roles(self, info) -> Role:
         return await role_loader.load(self.id)
 
 async def load_users(keys) -> List[User]:
