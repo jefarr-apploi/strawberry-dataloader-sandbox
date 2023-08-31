@@ -20,7 +20,7 @@ def send_graphql_request(endpoint, query, headers=None):
 if __name__ == '__main__':
     # Example Usage
     URL = "http://flaskapp:8000/gql"
-    QUERY = """
+    QUERY_1 = """
     {
         first: getUser(id: 1) {
             id
@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     QUERY = """
     {
-        users
+        users { nodes { id role { id } } }
     }
     """
     

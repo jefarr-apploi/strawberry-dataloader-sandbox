@@ -1,7 +1,7 @@
 from flask import Flask
 import logging
 import time
-from typing import List
+from typing import List, Iterable
 import uvicorn
 import asyncio
 
@@ -28,6 +28,7 @@ async def hello_world():
     app.logger.info('Hello World endpoint was accessed')
     return 'Hello World'
 
+
 @strawberry.type
 class Role:
     id: strawberry.ID
@@ -37,6 +38,7 @@ async def load_roles(keys) -> List[Role]:
     return [Role(id=key) for key in keys]
 
 role_loader = DataLoader(load_fn=load_roles, cache=False)
+
 
 @strawberry.type
 class User:
@@ -52,10 +54,37 @@ async def load_users(keys) -> List[User]:
 
 users_loader = DataLoader(load_fn=load_users, cache=False)
 
-async def get_user_ids(_):
-    return [1,2,3]
+async def users_by_user_ids(keys) -> List[User]:
+    app.logger.info(f"users_by_user_ids called with keys {keys}")
+
+    response = list()
+    for ids in keys:
+        response.append([User(id=id) for id in ids])
+    
+    return response
+
+users_by_user_ids_loader = DataLoader(load_fn=users_by_user_ids, cache=False)
+
+
+@strawberry.type
+class UserConnection:
+    _user_ids: List[int] = None
+
+    @strawberry.field()
+    async def nodes(self) -> List[User]:
+        app.logger.info(f"UserConnection _user_ids {self._user_ids}")
+        users = await users_by_user_ids_loader.load(self._user_ids)
+        app.logger.info(f"UserConnection users {users}")
+        return users
+
+async def get_user_ids(keys) -> Iterable[UserConnection]:
+    app.logger.info(f"get_user_ids called with keys {keys}")
+    response = list()
+    response.append(UserConnection(_user_ids = [1,2,3]))
+    return response
 
 user_ids_loader = DataLoader(load_fn=get_user_ids, cache=False)
+
 
 @strawberry.type
 class Query:
@@ -64,7 +93,7 @@ class Query:
         return await users_loader.load(id)
 
     @strawberry.field
-    async def users(self) -> List[int]:
+    async def users(self) -> UserConnection:
         return await user_ids_loader.load(None)
 
 schema = strawberry.Schema(query=Query)
