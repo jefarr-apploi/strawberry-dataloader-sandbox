@@ -2,7 +2,6 @@ from flask import Flask
 import logging
 import time
 from typing import List, Iterable
-import uvicorn
 import asyncio
 
 from strawberry.flask.views import AsyncGraphQLView
@@ -13,9 +12,6 @@ from asgiref.wsgi import WsgiToAsgi
 
 import os
 
-if True:
-    import gevent.monkey
-    gevent.monkey.patch_all()
 
 app = Flask(__name__)
 

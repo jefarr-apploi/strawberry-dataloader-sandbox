@@ -19,7 +19,7 @@ EXPOSE 8000
 ENV BIND 0.0.0.0:8000
 
 # Run app.py using gunicorn when the container launches
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8000", "--log-level", "debug", "--reload"]
-#CMD ["uvicorn", "app:asgi_app", "--host", "0.0.0.0", "--port", "8000", "--workers", "3"]
+#CMD ["gunicorn", "app:app", "-b", "0.0.0.0:8000", "--log-level", "debug", "--reload"]
+CMD ["uvicorn", "app:asgi_app", "--host", "0.0.0.0", "--port", "8000", "--workers", "3"]
 #CMD ["gunicorn", "--worker-class", "uvicorn.workers.UvicornWorker", "app:asgi_app", "-b", "0.0.0.0:8000", "--workers", "3"]
 #CMD ["python", "app.py"]
